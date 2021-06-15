@@ -1,10 +1,8 @@
 import { Col, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import CurrencyChart from "../CurrencyChart";
-const currencyData = require("../../api.json");
-const chartData = require("../../apiChartData.json");
 
-export default function CurrencyForm() {
+export default function CurrencyForm(props) {
   const [data, setData] = useState();
   const [currencyOne, setCurrencyOne] = useState("EUR");
   const [currencyTwo, setCurrencyTwo] = useState("USD");
@@ -37,8 +35,8 @@ export default function CurrencyForm() {
     //   }
     // };
     // fetchData();
-    setData(currencyData);
-  }, []);
+    setData(props.data);
+  }, [props.data]);
   return (
     <div>
       <div>
@@ -124,7 +122,7 @@ export default function CurrencyForm() {
         </Form>
       </div>
       {data && convertAmount.current && (
-        <CurrencyChart data={data} amount={convertAmount.current} />
+        <CurrencyChart data={props.chartData} amount={convertAmount.current} />
       )}
     </div>
   );
