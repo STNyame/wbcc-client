@@ -21,6 +21,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
+        <h1>Currency converter</h1>
         <CurrencyForm data={currencyData} chartData={chartData} />
       </header>
     </div>
