@@ -1,14 +1,32 @@
 {
-  "success": true,
-  "timestamp": 1623766144,
-  "base": "EUR",
-  "date": "2021-06-15",
-  "rates": {
-    "USD": 1.212704,
-    "EUR": 1,
-    "GBP": 0.86113,
-    "AUD": 1.57708,
-    "CAD": 1.476424,
-    "CHF": 1.08959
+  "latest": {
+    "success": true,
+    "timestamp": 1623766144,
+    "base": "EUR",
+    "date": "2021-06-15",
+    "rates": {
+      "USD": 1.212704,
+      "EUR": 1,
+      "GBP": 0.86113,
+      "AUD": 1.57708,
+      "CAD": 1.476424,
+      "CHF": 1.08959
+    }
+  },
+  "Old": {
+    "success": true,
+    "timestamp": 1592265599,
+    "historical": true,
+    "base": "EUR",
+    "date": "2020-06-15",
+    "rates": {
+      "USD": 1.133742,
+      "EUR": 1,
+      "JPY": 121.842118,
+      "GBP": 0.897163,
+      "AUD": 1.629384,
+      "CAD": 1.534446,
+      "CHF": 1.076029
+    }
   }
 }
