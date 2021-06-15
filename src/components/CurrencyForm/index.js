@@ -1,6 +1,8 @@
 import { Col, Form, Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import CurrencyChart from "../CurrencyChart";
 const currencyData = require("../../api.json");
+const chartData = require("../../apiChartData.json");
 
 export default function CurrencyForm() {
   const [data, setData] = useState();
@@ -39,83 +41,91 @@ export default function CurrencyForm() {
   }, []);
   return (
     <div>
-      <Form>
-        <Form.Row>
-          <Col>
-            <Form.Control
-              placeholder="Amount"
-              value={amount}
-              onChange={(e) => {
-                setAmount(e.target.value);
-                setConvertAmount({});
-              }}
-            />
-          </Col>
-          <Col>
-            <Form.Control
-              as="select"
-              value={currencyOne}
-              onChange={(e) => {
-                setCurrencyOne(e.target.value);
-                setConvertAmount({});
-              }}
-            >
-              {data &&
-                Object.keys({ ...data.rates }).map((item, i) => (
-                  <option value={item} key={i}>
-                    {item}
-                  </option>
-                ))}
-            </Form.Control>
-          </Col>
-          <Col>
-            <Button
-              variant="primary"
-              onClick={() => {
-                handleDirection(currencyOne, currencyTwo);
-                handleConvert(data.rates[currencyTwo], data.rates[currencyOne]);
-              }}
-            >
-              Bidirectional
-            </Button>
-          </Col>
-          <Col>
-            <Form.Control
-              as="select"
-              value={currencyTwo}
-              onChange={(e) => {
-                setCurrencyTwo(e.target.value);
-                setConvertAmount({});
-              }}
-            >
-              {data &&
-                Object.keys({ ...data.rates }).map((item, i) => (
-                  <option value={item} key={i}>
-                    {item}
-                  </option>
-                ))}
-            </Form.Control>
-          </Col>
-        </Form.Row>
-        <Button
-          variant="primary"
-          onClick={() =>
-            handleConvert(data.rates[currencyOne], data.rates[currencyTwo])
-          }
-        >
-          Convert
-        </Button>
-        {convertAmount.converted && (
-          <>
-            <h5>
-              {amount} {currencyOne}
-            </h5>
-            <h1>
-              {convertAmount.converted} {currencyTwo}
-            </h1>
-          </>
-        )}
-      </Form>
+      <div>
+        <Form>
+          <Form.Row>
+            <Col>
+              <Form.Control
+                placeholder="Amount"
+                value={amount}
+                onChange={(e) => {
+                  setAmount(e.target.value);
+                  setConvertAmount({});
+                }}
+              />
+            </Col>
+            <Col>
+              <Form.Control
+                as="select"
+                value={currencyOne}
+                onChange={(e) => {
+                  setCurrencyOne(e.target.value);
+                  setConvertAmount({});
+                }}
+              >
+                {data &&
+                  Object.keys({ ...data.rates }).map((item, i) => (
+                    <option value={item} key={i}>
+                      {item}
+                    </option>
+                  ))}
+              </Form.Control>
+            </Col>
+            <Col>
+              <Button
+                variant="primary"
+                onClick={() => {
+                  handleDirection(currencyOne, currencyTwo);
+                  handleConvert(
+                    data.rates[currencyTwo],
+                    data.rates[currencyOne]
+                  );
+                }}
+              >
+                Bidirectional
+              </Button>
+            </Col>
+            <Col>
+              <Form.Control
+                as="select"
+                value={currencyTwo}
+                onChange={(e) => {
+                  setCurrencyTwo(e.target.value);
+                  setConvertAmount({});
+                }}
+              >
+                {data &&
+                  Object.keys({ ...data.rates }).map((item, i) => (
+                    <option value={item} key={i}>
+                      {item}
+                    </option>
+                  ))}
+              </Form.Control>
+            </Col>
+          </Form.Row>
+          <Button
+            variant="primary"
+            onClick={() =>
+              handleConvert(data.rates[currencyOne], data.rates[currencyTwo])
+            }
+          >
+            Convert
+          </Button>
+          {convertAmount.converted && (
+            <>
+              <h5>
+                {amount} {currencyOne}
+              </h5>
+              <h1>
+                {convertAmount.converted} {currencyTwo}
+              </h1>
+            </>
+          )}
+        </Form>
+      </div>
+      {data && convertAmount.current && (
+        <CurrencyChart data={data} amount={convertAmount.current} />
+      )}
     </div>
   );
 }
