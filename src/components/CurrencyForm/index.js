@@ -1,13 +1,14 @@
-import { Col, Form, Button } from "react-bootstrap";
+import { Col, Form, Button, Collapse, Row } from "react-bootstrap";
 import { useEffect, useState } from "react";
-const currencyData = require("../../api.json");
+import CurrencyChart from "../CurrencyChart";
 
-export default function CurrencyForm() {
+export default function CurrencyForm(props) {
   const [data, setData] = useState();
   const [currencyOne, setCurrencyOne] = useState("EUR");
   const [currencyTwo, setCurrencyTwo] = useState("USD");
   const [amount, setAmount] = useState(0);
   const [convertAmount, setConvertAmount] = useState({});
+  const [open, setOpen] = useState(false);
 
   const handleConvert = (curOne, curTwo) => {
     const current = (1 / curOne) * amount;
@@ -35,87 +36,123 @@ export default function CurrencyForm() {
     //   }
     // };
     // fetchData();
-    setData(currencyData);
-  }, []);
+    setData(props.data);
+  }, [props.data]);
   return (
     <div>
-      <Form>
-        <Form.Row>
-          <Col>
-            <Form.Control
-              placeholder="Amount"
-              value={amount}
-              onChange={(e) => {
-                setAmount(e.target.value);
-                setConvertAmount({});
-              }}
-            />
-          </Col>
-          <Col>
-            <Form.Control
-              as="select"
-              value={currencyOne}
-              onChange={(e) => {
-                setCurrencyOne(e.target.value);
-                setConvertAmount({});
-              }}
-            >
-              {data &&
-                Object.keys({ ...data.rates }).map((item, i) => (
-                  <option value={item} key={i}>
-                    {item}
-                  </option>
-                ))}
-            </Form.Control>
-          </Col>
-          <Col>
+      <div>
+        <Form>
+          <Form.Row>
+            <Col>
+              <Form.Control
+                placeholder="Amount"
+                value={amount}
+                onChange={(e) => {
+                  setAmount(e.target.value);
+                  setConvertAmount({});
+                }}
+              />
+            </Col>
+            <Col>
+              <Form.Control
+                as="select"
+                value={currencyOne}
+                onChange={(e) => {
+                  setCurrencyOne(e.target.value);
+                  setConvertAmount({});
+                }}
+              >
+                {data &&
+                  Object.keys({ ...data.rates }).map((item, i) => (
+                    <option value={item} key={i}>
+                      {item}
+                    </option>
+                  ))}
+              </Form.Control>
+            </Col>
+            <Row>
+              <Button
+                variant="primary"
+                style={{ margin: "0 20px" }}
+                onClick={() => {
+                  handleDirection(currencyOne, currencyTwo);
+
+                  amount > 0 &&
+                    handleConvert(
+                      data.rates[currencyTwo],
+                      data.rates[currencyOne]
+                    );
+                }}
+              >
+                {"< >"}
+              </Button>
+            </Row>
+            <Col>
+              <Form.Control
+                as="select"
+                value={currencyTwo}
+                onChange={(e) => {
+                  setCurrencyTwo(e.target.value);
+                  setConvertAmount({});
+                }}
+              >
+                {data &&
+                  Object.keys({ ...data.rates }).map((item, i) => (
+                    <option value={item} key={i}>
+                      {item}
+                    </option>
+                  ))}
+              </Form.Control>
+            </Col>
+          </Form.Row>
+          <Row>
             <Button
+              style={{ margin: "30px 0 30px 15px" }}
               variant="primary"
-              onClick={() => {
-                handleDirection(currencyOne, currencyTwo);
-                handleConvert(data.rates[currencyTwo], data.rates[currencyOne]);
-              }}
+              disabled={amount <= 0}
+              onClick={() =>
+                handleConvert(data.rates[currencyOne], data.rates[currencyTwo])
+              }
             >
-              Bidirectional
+              Convert
             </Button>
-          </Col>
-          <Col>
-            <Form.Control
-              as="select"
-              value={currencyTwo}
-              onChange={(e) => {
-                setCurrencyTwo(e.target.value);
-                setConvertAmount({});
-              }}
-            >
-              {data &&
-                Object.keys({ ...data.rates }).map((item, i) => (
-                  <option value={item} key={i}>
-                    {item}
-                  </option>
-                ))}
-            </Form.Control>
-          </Col>
-        </Form.Row>
+          </Row>
+          {convertAmount.converted && (
+            <div style={{ textAlign: "left" }}>
+              <h5>
+                {amount} {currencyOne}
+              </h5>
+              <h1>
+                {convertAmount.converted} {currencyTwo}
+              </h1>
+            </div>
+          )}
+        </Form>
+      </div>
+      <Row>
         <Button
-          variant="primary"
-          onClick={() =>
-            handleConvert(data.rates[currencyOne], data.rates[currencyTwo])
-          }
+          onClick={() => setOpen(!open)}
+          style={{ margin: "30px 0 30px 15px" }}
+          aria-controls="collapse-chart"
+          aria-expanded={open}
         >
-          Convert
+          Show chart
         </Button>
-        {convertAmount.converted && (
-          <>
-            <h5>
-              {amount} {currencyOne}
-            </h5>
-            <h1>
-              {convertAmount.converted} {currencyTwo}
-            </h1>
-          </>
-        )}
-      </Form>
+      </Row>
+      <Row>
+        <Col>
+          <Collapse in={open}>
+            <div id="collapse-chart">
+              {data && convertAmount.current && (
+                <CurrencyChart
+                  data={props.chartData}
+                  amount={convertAmount.current}
+                />
+              )}
+            </div>
+          </Collapse>
+        </Col>
+      </Row>
     </div>
   );
 }
