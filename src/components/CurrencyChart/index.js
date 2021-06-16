@@ -19,7 +19,9 @@ export default function CurrencyChart(props) {
   });
 
   return (
-    <div style={{ width: "500px", height: "300px" }}>
+    <div
+      style={{ width: "500px", height: "400px", backgroundColor: "#282c34" }}
+    >
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           width={500}

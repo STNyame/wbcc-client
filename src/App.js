@@ -1,6 +1,7 @@
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CurrencyForm from "./components/CurrencyForm";
+import { Card, Col, Container, Row } from "react-bootstrap";
 const currencyData = require("./api.json");
 const chartData = require("./apiChartData.json");
 
@@ -21,8 +22,28 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <h1>Currency converter</h1>
-        <CurrencyForm data={currencyData} chartData={chartData} />
+        <div className="header-div"></div>
+        <Container>
+          <Card className="card-style" bg="dark">
+            <Card.Header>
+              <Row>
+                <h1 style={{ marginLeft: "15px" }}>Currency converter</h1>
+              </Row>
+            </Card.Header>
+            <Card.Body>
+              {/* <Card.Title>Special title treatment</Card.Title>
+              <Card.Text>
+                With supporting text below as a natural lead-in to additional
+                content.
+              </Card.Text> */}
+              <Row>
+                <Col>
+                  <CurrencyForm data={currencyData} chartData={chartData} />
+                </Col>
+              </Row>
+            </Card.Body>
+          </Card>
+        </Container>
       </header>
     </div>
   );

@@ -1,4 +1,4 @@
-import { Col, Form, Button, Collapse } from "react-bootstrap";
+import { Col, Form, Button, Collapse, Row } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import CurrencyChart from "../CurrencyChart";
 
@@ -70,9 +70,10 @@ export default function CurrencyForm(props) {
                   ))}
               </Form.Control>
             </Col>
-            <Col>
+            <Row>
               <Button
                 variant="primary"
+                style={{ margin: "0 20px" }}
                 onClick={() => {
                   handleDirection(currencyOne, currencyTwo);
 
@@ -85,7 +86,7 @@ export default function CurrencyForm(props) {
               >
                 {"< >"}
               </Button>
-            </Col>
+            </Row>
             <Col>
               <Form.Control
                 as="select"
@@ -104,16 +105,18 @@ export default function CurrencyForm(props) {
               </Form.Control>
             </Col>
           </Form.Row>
-          <Button
-            style={{ margin: "30px 0" }}
-            variant="primary"
-            disabled={amount <= 0}
-            onClick={() =>
-              handleConvert(data.rates[currencyOne], data.rates[currencyTwo])
-            }
-          >
-            Convert
-          </Button>
+          <Row>
+            <Button
+              style={{ margin: "30px 0 30px 15px" }}
+              variant="primary"
+              disabled={amount <= 0}
+              onClick={() =>
+                handleConvert(data.rates[currencyOne], data.rates[currencyTwo])
+              }
+            >
+              Convert
+            </Button>
+          </Row>
           {convertAmount.converted && (
             <div style={{ textAlign: "left" }}>
               <h5>
@@ -126,27 +129,30 @@ export default function CurrencyForm(props) {
           )}
         </Form>
       </div>
-      <>
+      <Row>
         <Button
           onClick={() => setOpen(!open)}
-          style={{ margin: "30px 0" }}
-          aria-controls="example-collapse-chart"
+          style={{ margin: "30px 0 30px 15px" }}
+          aria-controls="collapse-chart"
           aria-expanded={open}
-          visible
         >
           Show chart
         </Button>
-        <Collapse in={open}>
-          <div id="example-collapse-chart">
-            {data && convertAmount.current && (
-              <CurrencyChart
-                data={props.chartData}
-                amount={convertAmount.current}
-              />
-            )}
-          </div>
-        </Collapse>
-      </>
+      </Row>
+      <Row>
+        <Col>
+          <Collapse in={open}>
+            <div id="collapse-chart">
+              {data && convertAmount.current && (
+                <CurrencyChart
+                  data={props.chartData}
+                  amount={convertAmount.current}
+                />
+              )}
+            </div>
+          </Collapse>
+        </Col>
+      </Row>
     </div>
   );
 }
