@@ -1,6 +1,7 @@
 import { Col, Form, Button, Collapse, Row } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import CurrencyChart from "../CurrencyChart";
+import { useHistory } from "react-router-dom";
 
 export default function CurrencyForm(props) {
   const [data, setData] = useState();
@@ -9,6 +10,7 @@ export default function CurrencyForm(props) {
   const [amount, setAmount] = useState(0);
   const [convertAmount, setConvertAmount] = useState({});
   const [open, setOpen] = useState(false);
+  const history = useHistory();
 
   const handleConvert = (curOne, curTwo) => {
     const current = (1 / curOne) * amount;
@@ -25,19 +27,11 @@ export default function CurrencyForm(props) {
     setCurrencyTwo(curOne);
   };
   useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     const res = await axios.get(
-    //       `http://api.exchangeratesapi.io/v1/latest?access_key=627eac13bdbc305e6e615008b83e46c5&format=1`
-    //     );
-    //     setData(res.data);
-    //   } catch (e) {
-    //     console.log(e.message);
-    //   }
-    // };
-    // fetchData();
     setData(props.data);
   }, [props.data]);
+  useEffect(() => {
+    history.push(`/${currencyOne}`);
+  }, [currencyOne, history]);
   return (
     <div>
       <div>
@@ -132,7 +126,9 @@ export default function CurrencyForm(props) {
       </div>
       <Row>
         <Button
-          onClick={() => setOpen(!open)}
+          onClick={() => {
+            setOpen(!open);
+          }}
           style={{ margin: "30px 0 30px 15px" }}
           aria-controls="collapse-chart"
           aria-expanded={open}

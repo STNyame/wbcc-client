@@ -10,13 +10,15 @@ import {
 } from "recharts";
 
 export default function CurrencyChart(props) {
-  const data = Object.keys(props.data.latest.rates).map((item) => {
-    return {
-      name: item,
-      "rate(2021)": props.data.latest.rates[item] * props.amount,
-      "rate(2020)": props.data.Old.rates[item] * props.amount,
-    };
-  });
+  const data =
+    props.data &&
+    Object.keys(props.data.latest.rates).map((item) => {
+      return {
+        name: item,
+        "rate(2021)": props.data.latest.rates[item] * props.amount,
+        "rate(2020)": props.data.old.rates[item] * props.amount,
+      };
+    });
 
   return (
     <div
