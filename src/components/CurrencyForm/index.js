@@ -41,7 +41,7 @@ export default function CurrencyForm(props) {
   return (
     <div>
       <div>
-        <Form>
+        <Form onSubmit={(e) => e.preventDefault()}>
           <Form.Row>
             <Col>
               <Form.Control
@@ -110,6 +110,7 @@ export default function CurrencyForm(props) {
               style={{ margin: "30px 0 30px 15px" }}
               variant="primary"
               disabled={amount <= 0}
+              type="submit"
               onClick={() =>
                 handleConvert(data.rates[currencyOne], data.rates[currencyTwo])
               }
@@ -120,7 +121,7 @@ export default function CurrencyForm(props) {
           {convertAmount.converted && (
             <div style={{ textAlign: "left" }}>
               <h5>
-                {amount} {currencyOne}
+                {amount} {currencyOne} =
               </h5>
               <h1>
                 {convertAmount.converted} {currencyTwo}
@@ -135,6 +136,7 @@ export default function CurrencyForm(props) {
           style={{ margin: "30px 0 30px 15px" }}
           aria-controls="collapse-chart"
           aria-expanded={open}
+          disabled={amount <= 0}
         >
           Show chart
         </Button>
