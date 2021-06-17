@@ -8,7 +8,6 @@ import {
   ResponsiveContainer,
   Bar,
 } from "recharts";
-
 export default function CurrencyChart(props) {
   const data =
     props.data &&

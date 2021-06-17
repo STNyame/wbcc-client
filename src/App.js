@@ -2,8 +2,6 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Switch, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
-// const currencyData = require("./api.json");
-// const chartData = require("./apiChartData.json");
 
 function App() {
   return (
