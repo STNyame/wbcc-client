@@ -20,7 +20,6 @@ export default function CurrencyForm(props) {
       converted: converted,
       current: current,
     });
-    console.log(convertAmount);
   };
   const handleDirection = (curOne, curTwo) => {
     setCurrencyOne(curTwo);
