@@ -10,22 +10,23 @@ export default function LandingPage() {
   const [currencyData, setCurrencyData] = useState();
   const [chartData, setChartData] = useState();
   const previousDate = moment().subtract(1, "years");
+  const API_KEY = process.env.REACT_APP_EXCHANGE_RATES_API_KEY;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const CUR = queryParam.cur;
         const resData = await axios.get(
-          `https://openexchangerates.org/api/latest.json?app_id=ad48058249fa41cfac0f32dcf0bceea7`
+          `https://openexchangerates.org/api/latest.json?app_id=${API_KEY}`
         );
 
         const resChart = await axios.get(
-          `https://openexchangerates.org/api/latest.json?app_id=ad48058249fa41cfac0f32dcf0bceea7&symbols=${CUR},USD,GBP,AUD,CAD,CHF`
+          `https://openexchangerates.org/api/latest.json?app_id=${API_KEY}&symbols=${CUR},USD,GBP,AUD,CAD,CHF`
         );
         const oldChart = await axios.get(
           `https://openexchangerates.org/api/historical/${previousDate.format(
             "YYYY-MM-DD"
-          )}.json?app_id=ad48058249fa41cfac0f32dcf0bceea7&symbols=${CUR},USD,GBP,AUD,CAD,CHF`
+          )}.json?app_id=${API_KEY}&symbols=${CUR},USD,GBP,AUD,CAD,CHF`
         );
         setCurrencyData(resData.data);
         setChartData({

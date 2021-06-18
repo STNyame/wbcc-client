@@ -8,14 +8,19 @@ import {
   ResponsiveContainer,
   Bar,
 } from "recharts";
+const moment = require("moment");
+const year = {
+  present: moment().format("YYYY"),
+  past: moment().subtract(1, "years").format("YYYY"),
+};
 export default function CurrencyChart(props) {
   const data =
     props.data &&
     Object.keys(props.data.latest.rates).map((item) => {
       return {
         name: item,
-        "rate(2021)": props.data.latest.rates[item] * props.amount,
-        "rate(2020)": props.data.old.rates[item] * props.amount,
+        [year.present]: props.data.latest.rates[item] * props.amount,
+        [year.past]: props.data.old.rates[item] * props.amount,
       };
     });
 
@@ -40,8 +45,8 @@ export default function CurrencyChart(props) {
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey="rate(2021)" fill="#8884d8" />
-          <Bar dataKey="rate(2020)" fill="#949" />
+          <Bar dataKey={year.present} fill="#8884d8" />
+          <Bar dataKey={year.past} fill="#949" />
         </BarChart>
       </ResponsiveContainer>
     </div>
